@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/static/css/sierra.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script type="text/javascript" src="/static/lib/validator.min.js"></script>
+  </head>
+  <body>
+    <div class="container-medium">
+      <div class="col-xs-12 col-md-12">
+        <label class="text-big text-grey">Mensajeria en Tiempo Real</label>
+        <div class="box-msg">
+          <ul id="list-msg"></ul>
+        </div>
+
+        <textarea class="textarea box-msg-text text-medium text-white" id="new-msg" rows="4" cols="40"></textarea>
+        <div id="input">
+          <div class="input input-with-icon full-width">
+            <input placeholder="Tu Nombre" type="text" id="new-user">
+            <i class="input-icon fa fa-th fa-2"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.7/socket.io.js"></script>
+    <script>
+      var socket = io.connect('http://192.168.0.103:3000');
+
+      /*CODIGO PARA EL NICKNAME*/
+      document.getElementById('new-user').addEventListener('keyup', function(evt) {
+        if(evt.keyCode === 13) {
+          console.log('Presiono enter');
+          socket.emit('new user', document.getElementById('new-user').value, function(data) {
+            console.log('pasooo');
+            if(data) {
+              document.getElementById('new-msg').style.display = 'block';
+              document.getElementById('input').style.display = 'none';
+            }
+          });
+          document.getElementById('new-user').value = '';
+        }
+      });
+
+      /*CODIGO MODIFICA EL TEXTAREA Y EL BOX DEL CHAT*/
+
+      socket.on('message', function(data) {
+        document.getElementById('list-msg').innerHTML += '<li class="row"><b class="text-medium">' + data.user + '</b><p class="nick">' + data.msg + '</p></li>';
+      });
+
+      document.getElementById('new-msg').addEventListener('keyup', function(evt) {
+        if(evt.keyCode === 13) {
+
+          var text = document.getElementById('new-msg').value,
+              textEscape = validator.escape(text);
+          console.log('Presiono enter: ' + document.getElementById('new-msg').value );
+          socket.emit('message', textEscape);
+          document.getElementById('new-msg').value = '';
+        }
+      });
+
+
+      /*
+      socket.on('count', function(data) {
+        document.getElementById('count').innerHTML = data.count;
+      });
+
+      document.getElementById('clickMe').addEventListener('click', function() {
+        socket.emit('increase');
+      });
+      */
+    </script>
+  </body>
+</html>

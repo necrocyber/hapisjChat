@@ -1,0 +1,26 @@
+{
+  "name": "hapi-api",
+  "version": "1.0.0",
+  "description": "Poryecto con Hapijs",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Antonio Medel",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "ejs": "^2.3.4",
+    "good": "^6.4.0",
+    "good-console": "^5.2.0",
+    "hapi": "^11.1.4",
+    "hapi-swagger": "^3.0.1",
+    "hapi-swaggered": "^2.4.1",
+    "hapi-swaggered-ui": "^2.1.1",
+    "inert": "^3.2.0",
+    "joi": "^7.1.0",
+    "mongoose": "^4.3.4",
+    "socket.io": "^1.4.1",
+    "vision": "^4.0.1"
+  }
+}
